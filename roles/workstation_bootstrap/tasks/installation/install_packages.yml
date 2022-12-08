@@ -1,0 +1,43 @@
+---
+# Update Package Index
+- name: Update the package Index
+  ansible.builtin.apt:
+    update_cache: True
+  tags: always
+  ignore_errors: true
+
+# Setting up flatpak
+- name: Flatpak setup
+  ansible.builtin.shell: |
+    sudo apt install -y gnome-software-plugin-flatpak
+    flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+  ignore_errors: true
+
+# Task to install tools like curl, wget, htop, etc.
+# variable : vars/main.yml -> system_tools,
+
+- name: SYSTEM RELATED TOOLS
+  ansible.builtin.apt:
+    pkg: "{{ item }}"
+    state: present
+  loop:
+    - "{{ browser }}"
+    - "{{ torrent }}"
+    - "{{ system_tools }}"
+    - "{{ git }}"
+    - "{{ backup }}"
+    - "{{ terminal }}"
+    - "{{ text_editor }}"
+    - "{{ capture }}"
+    - "{{ editing }}"
+    - "{{ firewall }}"
+    - "{{ kvm }}"
+    - "{{ media_player }}"
+    - "{{ vagrant }}"
+    - "{{ docker }}"
+  ignore_errors: true
+
+- name: Flatpak - Install ksnip
+  ansible.builtin.shell: |
+    flatpak install -y flathub org.ksnip.ksnip
+  ignore_errors: True

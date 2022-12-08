@@ -1,0 +1,81 @@
+---
+# Flameshot and ksnip are screenshot utilities
+
+- name: Restore flameshot and knsip 
+  ansible.builtin.shell:
+    cmd: rsync -a --progress --delete-before {{ external_dir }}{{ item }}  {{ config_dir }}
+  args:
+    executable: /bin/bash
+  loop:
+    - flameshot
+    - ksnip
+  tags: ["restore", "restore_screenshot"]
+  
+# All dot files will be copied using below task
+  
+- name: Restore dot files
+  ansible.builtin.shell:
+    cmd: rsync -a --progress --delete-before {{ external_dir }}{{ item }}  {{ home_dir }}
+  args:
+    executable: /bin/bash
+  loop:
+    - .bashrc
+    - .bash_aliases
+    - .tmux.conf
+    - .vimrc
+  tags: ["restore","restore_dotfiles"]
+  
+# Joplin markdown editor - Note taking app
+
+- name: Restore Joplin files
+  ansible.builtin.shell:
+    cmd: rsync -a --progress --delete-before {{ external_dir }}{{ item }}  {{ config_dir }}
+  args:
+    executable: /bin/bash
+  loop:
+    - Joplin
+    - joplin-desktop
+  tags: ["restore","restore_joplin"]
+  
+# Sublime text - Text editor
+
+- name: Restore sublime text files
+  ansible.builtin.shell:
+    cmd: rsync -a --progress --delete-before {{ external_dir }}sublime-text  {{ config_dir }}
+  args:
+    executable: /bin/bash
+  tags: ["restore","restore_sublime"]
+  
+# Terminal based text editor - Micro
+
+- name: Restore micro text editor files
+  ansible.builtin.shell:
+    cmd: rsync -a --progress --delete-before {{ external_dir }}micro  {{ config_dir }}
+  args:
+    executable: /bin/bash
+  tags: ["restore","restore_micro"]
+  
+# Alacritty terminal related files
+
+- name: Restore alacritty related files
+  ansible.builtin.shell:
+    cmd: rsync -a --progress --delete-before {{ external_dir }}alacritty  {{ config_dir }}
+  args:
+    executable: /bin/bash
+  tags: ["restore","restore_alacritty"]
+  
+# fish shell, oh my fish related config files
+
+- name: Restore fish and omf files
+  ansible.builtin.shell:
+    cmd: rsync -a --progress --delete-before {{ external_dir }}{{ item }}  {{ config_dir }}
+  args:
+    executable: /bin/bash
+  loop:
+    - fish
+    - omf
+  tags: ["restore","restore_fish"]
+  
+  
+  
+  

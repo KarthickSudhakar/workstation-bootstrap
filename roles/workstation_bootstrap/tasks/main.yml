@@ -1,0 +1,15 @@
+---
+# Installing brave browser
+- import_tasks: installation/browser.yml
+
+# Install text editor
+- import_tasks: installation/text_editor.yml
+
+# Installing Vagrant 
+- import_tasks: installation/vagrant.yml
+
+# Installing Docker
+- import_tasks: installation/docker.yml
+
+# Installing system related tools like htop, curl, wget
+- import_tasks: installation/install_packages.yml

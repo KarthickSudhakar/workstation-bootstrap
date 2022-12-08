@@ -1,0 +1,14 @@
+browser: "brave-browser"
+torrent: "qbittorrent"
+system_tools: ["htop", "neofetch", "cowsay", "hardinfo", "stacer", "gparted", "copyq", "filezilla", "dconf-editor", "gnome-tweaks", "curl", "wget", "tree", "jq"]
+git: ["git", "sublime-merge"]
+backup: ["timeshift", "rsync", "grsync"]
+terminal: ["fish", "tmux"]
+text_editor: ["code", "sublime-text", "zim", "neovim", "vim"]
+capture: ["flameshot", "peek"]
+editing: ["gimp", "darktable"]
+firewall: ["ufw", "gufw"]
+media_player: "vlc"
+kvm: [ "qemu-kvm", "libvirt-daemon-system", "libvirt-clients", "bridge-utils", "virt-manager" ]
+docker: ["docker-ce", "docker-ce-cli", "containerd.io", "docker-compose-plugin"]
+vagrant: "vagrant"

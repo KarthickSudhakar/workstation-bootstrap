@@ -1,0 +1,10 @@
+# Local paths
+home_dir: "/home/karthick/"
+config_dir: "{{ home_dir }}.config/"
+my_root_dir: "{{ home_dir }}Karthick_Root/"
+
+# All config files are copied to this local directory. 
+local_backup_dir: "{{ my_root_dir }}linux_backup_data/"
+
+# This is set using vars_prompt
+external_dir: "{{ user_path }}"

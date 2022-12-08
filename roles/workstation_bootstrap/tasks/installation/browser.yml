@@ -1,0 +1,19 @@
+---
+
+# Brave browser add repository. Installation will be done through ../main.yml
+
+- name: Get keyring file
+  ansible.builtin.get_url:
+    url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
+    dest: "/usr/share/keyrings/brave-browser-archive-keyring.gpg"
+    mode: "0644"
+  become: true
+  ignore_errors: true
+
+- name: Add Brave repository to list of repositories
+  become: true
+  ansible.builtin.copy:
+    dest: /etc/apt/sources.list.d/brave-browser-release.list
+    content: |
+      deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main
+  ignore_errors: true

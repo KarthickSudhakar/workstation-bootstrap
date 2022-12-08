@@ -1,0 +1,16 @@
+---
+- name: Bootstrap Workstation
+  hosts: localhost
+  gather_facts: False
+  become: True
+  
+  tasks:
+
+    - import_role: 
+        name: workstation_bootstrap
+
+  post_tasks:
+  
+    - name: Remove useless packages from the cache
+      ansible.builtin.apt:
+        autoclean: yes

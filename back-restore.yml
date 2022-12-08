@@ -1,0 +1,63 @@
+---
+- name: Backup and restore workstation files
+  hosts: localhost
+  gather_facts: False
+    
+  pre_tasks:
+  
+    # This section will take care of getting user input for config files alone
+        
+    - name: BACKUP User prompt for directory path
+      ansible.builtin.pause:
+        prompt: "Enter the path where backup to be stored with / at the last"
+      register: backup_input
+      tags: 
+        - backup
+            
+    - name: BACKUP Create a fact 
+      ansible.builtin.set_fact:
+        user_path: "{{ backup_input.user_input }}"
+      tags: 
+        - backup
+    
+   # This section will take care of getting user input for other directories 
+    
+    - name: FULL BACKUP User prompt for directory path
+      ansible.builtin.pause:
+        prompt: "Enter the path where backup to be stored with / at the last"
+      register: fullbackup_input
+      tags: 
+        - full_backup
+            
+    - name: FULL BACKUP Create a fact 
+      ansible.builtin.set_fact:
+        user_path: "{{ fullbackup_input.user_input }}"
+      tags: 
+        - full_backup
+       
+    - name: BACKUP Check if user provided directory exists, if not create it.
+      ansible.builtin.file:
+        path: "{{ user_path }}"
+        state: directory
+        mode: '0755'
+      tags:
+        - backup
+        - full_backup        
+    
+   # This section will take care of getting user input where config files are backed.
+        
+    - name: RESTORE User prompt for directory path
+      ansible.builtin.pause:
+        prompt: "Enter the path where config files are stored / at the last"
+      register: restore_input
+      tags: restore
+            
+    - name: RESTORE Create a fact
+      ansible.builtin.set_fact:
+        user_path: "{{ restore_input.user_input }}"
+      tags: restore
+      
+  tasks:
+
+    - import_role:
+        name: Backup_restore_settings

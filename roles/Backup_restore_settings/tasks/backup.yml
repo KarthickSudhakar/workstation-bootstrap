@@ -1,0 +1,87 @@
+---
+# Flameshot and ksnip are screenshot utilities
+
+- name: backup flameshot and knsip 
+  ansible.builtin.shell:
+    cmd: rsync -a --progress --delete-before {{ config_dir }}{{ item }} {{ external_dir }}
+  args:
+    executable: /bin/bash
+  loop:
+    - flameshot
+    - ksnip
+  tags: ["backup", "backup_screenshot"]
+  
+# All dot files will be copied using below task
+  
+- name: backup dot files
+  ansible.builtin.shell:
+    cmd: rsync -a --progress --delete-before {{ home_dir }}{{ item }} {{ external_dir }}
+  args:
+    executable: /bin/bash
+  loop:
+    - .bashrc
+    - .bash_aliases
+    - .tmux.conf
+    - .vimrc
+  tags: ["backup","backup_dotfiles"]
+  
+# Joplin markdown editor - Note taking app
+
+- name: backup Joplin files
+  ansible.builtin.shell:
+    cmd: rsync -a --progress --delete-before {{ config_dir }}{{ item }} {{ external_dir }}
+  args:
+    executable: /bin/bash
+  loop:
+    - Joplin
+    - joplin-desktop
+  tags: ["backup","backup_joplin"]
+  
+# Sublime text - Text editor
+
+- name: backup sublime text files
+  ansible.builtin.shell:
+    cmd: rsync -a --progress --delete-before {{ config_dir }}sublime-text {{ external_dir }}
+  args:
+    executable: /bin/bash
+  tags: ["backup","backup_sublime"]
+  
+# Terminal based text editor - Micro
+
+- name: backup micro text editor files
+  ansible.builtin.shell:
+    cmd: rsync -a --progress --delete-before {{ config_dir }}micro {{ external_dir }}
+  args:
+    executable: /bin/bash
+  tags: ["backup","backup_micro"]
+  
+# Alacritty terminal related files
+
+- name: backup alacritty related files
+  ansible.builtin.shell:
+    cmd: rsync -a --progress --delete-before {{ config_dir }}alacritty {{ external_dir }}
+  args:
+    executable: /bin/bash
+  tags: ["backup","backup_alacritty"]
+  
+# fish shell, oh my fish related config files
+
+- name: backup fish and omf files
+  ansible.builtin.shell:
+    cmd: rsync -a --progress --delete-before {{ config_dir }}{{ item }} {{ external_dir }}
+  args:
+    executable: /bin/bash
+  loop:
+    - fish
+    - omf
+  tags: ["backup","backup_fish"]
+  
+# Full backup : Local -> External Drive
+
+- name:  all files to external hard drive
+  ansible.builtin.shell: 
+    cmd: rsync -a --progress --delete-before {{ my_root_dir }} {{ external_dir }}
+  args:
+    executable: /bin/bash
+  tags: "full_backup"
+
