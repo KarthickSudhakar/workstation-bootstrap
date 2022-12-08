@@ -3,7 +3,26 @@
   hosts: localhost
   gather_facts: False
   become: True
-  
+
+  pre_tasks:
+
+    # Update the packages to the latest version and enable flatpak support
+
+    - name: Update apt cache
+      ansible.builtin.apt:
+        update_cache: True
+        upgrade: True
+
+    - name: Install flatpak
+      ansible.builtin.apt:
+        pkg: flatpak
+      register: flatpak
+
+    - name: Add flatpak repository
+      ansible.builtin.shell: 
+        cmd: flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+      when: flatpak.failed != 'false'
+
   tasks:
 
     - import_role: 
@@ -11,6 +30,6 @@
 
   post_tasks:
   
-    - name: Remove useless packages from the cache
+    - name: Cleanup unwanted packages
       ansible.builtin.apt:
         autoclean: yes

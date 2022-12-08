@@ -7,13 +7,26 @@
     url: https://brave-browser-apt-release.s3.brave.com/brave-browser-archive-keyring.gpg
     dest: "/usr/share/keyrings/brave-browser-archive-keyring.gpg"
     mode: "0644"
-  become: true
-  ignore_errors: true
+  become: True
+  ignore_errors: True
 
 - name: Add Brave repository to list of repositories
-  become: true
+  become: True
   ansible.builtin.copy:
     dest: /etc/apt/sources.list.d/brave-browser-release.list
     content: |
       deb [signed-by=/usr/share/keyrings/brave-browser-archive-keyring.gpg arch=amd64] https://brave-browser-apt-release.s3.brave.com/ stable main
-  ignore_errors: true
+  ignore_errors: True
+
+# Google chrome 
+
+- name: Download chrome .deb file
+  ansible.builtin.get_url:
+    url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+    dest: /tmp/chrome.deb
+  ignore_errors: True
+
+- name: Install chrome from .deb file
+  ansible.builtin.apt:
+    deb: /tmp/chrome.deb
+  ignore_errors: True
